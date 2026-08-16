@@ -1,368 +1,210 @@
-# 🌐 JarvisMesh — Protocole d'Agents IA Locaux, Souverain & Distribué
+# 🌐 JarvisMesh — Sovereign & Distributed Local AI Agent Mesh
+
+[🇬🇧 Read in English](README.md) | [🇫🇷 Lire en Français](README.fr.md)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![MLX: Metal](https://img.shields.io/badge/MLX-Apple%20Silicon-purple.svg)](https://github.com/ml-explore/mlx)
-[![Security: Ed25519](https://img.shields.io/badge/Security-Ed25519%20%2F%20HMAC-green.svg)](#sécurité--authentification-asymétrique-ed25519--hmac)
-[![MCP: Supported](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-orange.svg)](#passerelle-mcp-bi-directionnelle)
-[![Architecture: P2P & WAN](https://img.shields.io/badge/Architecture-P2P%20%2F%20mDNS%20%2F%20WAN-cyan.svg)](#architecture--principes-fondamentaux)
+[![Security: Ed25519 & E2EE](https://img.shields.io/badge/Security-Ed25519%20%2F%20E2EE-green.svg)](#-security-asymmetric-auth--e2ee-encryption)
+[![MCP: Supported](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-orange.svg)](#-bi-directional-mcp-gateway)
+[![Architecture: P2P & WAN](https://img.shields.io/badge/Architecture-P2P%20%2F%20mDNS%20%2F%20WAN-cyan.svg)](#-architecture--core-principles)
 
-**JarvisMesh** est un écosystème pair-à-pair (P2P), souverain et extensible pour agents d'intelligence artificielle distribués.
+**JarvisMesh** is a sovereign, decentralized peer-to-peer (P2P) mesh and operating layer for distributed AI agents.
 
-Au lieu que chaque agent dépende d'une API cloud centralisée et propriétaire, les agents tournant sur vos machines (Mac Apple Silicon, serveurs Linux, stations de travail locales ou distantes) :
-1. **Se découvrent automatiquement** via mDNS/Zeroconf ou via serveur de relais WAN (Tailscale/VPN).
-2. **S'échangent et se délèguent des tâches** via des WebSockets persistants et multiplexés.
-3. **Exécutent des modèles de langage locaux (LLM)** accélérés sur GPU Metal (MLX-LM) avec streaming token-par-token.
-4. **Coordonnent des pipelines complexes** via un moteur de workflows DAG multi-agents séquentiel et parallèle.
-5. **Intègrent l'écosystème MCP (Model Context Protocol)** de manière bi-directionnelle (consommation d'outils MCP et exposition du mesh en tant que serveur MCP).
-6. **Partagent une mémoire et une base documentaire sémantique (RAG local distribué)**.
-7. **Sécurisent leurs échanges par cryptographie asymétrique Ed25519** avec révocation granulaire sans secret partagé global.
-8. **Se supervisent en direct** via un Dashboard Web interactif (Dark Mode, Glassmorphism, télémétrie VRAM GPU).
-
-> **Zéro cloud obligatoire. Zéro serveur centralisé imposé. Zéro clé API externe. Vos données et votre puissance de calcul restent 100% vôtres.**
+Instead of relying on centralized, proprietary cloud APIs, agents running across your devices (Apple Silicon Macs, Linux servers, local workstations, or edge nodes):
+1. **Auto-discover each other** via mDNS/Zeroconf, Gossip protocol (SWIM), or WAN relay servers (Tailscale/VPN).
+2. **Exchange and delegate tasks** over persistent, multiplexed, end-to-end encrypted WebSockets (E2EE X25519/ChaCha20).
+3. **Execute local LLM inference** accelerated on Apple Silicon Metal GPU via MLX-LM with continuous token-by-token streaming.
+4. **Collaborate as autonomous ReAct agents** with dynamic tool calling, self-healing error recovery, and persistent SQLite vector memory.
+5. **Ingest and expose tools** via the open **Model Context Protocol (MCP)** standard.
 
 ---
 
-## Sommaire
-
-- [Architecture & Principes Fondamentaux](#architecture--principes-fondamentaux)
-- [Installation](#installation)
-- [Démarrage Rapide](#démarrage-rapide)
-- [Dashboard Web de Supervision](#dashboard-web-de-supervision)
-- [Inférence LLM Locale avec MLX-LM](#inférence-llm-locale-avec-mlx-lm)
-- [Sécurité : Authentification Asymétrique Ed25519 & HMAC](#sécurité--authentification-asymétrique-ed25519--hmac)
-- [Passerelle MCP Bi-directionnelle](#passerelle-mcp-bi-directionnelle)
-- [Mémoire Partagée & RAG Local Distribué](#mémoire-partagée--rag-local-distribué)
-- [Interconnexion WAN & Relais Multi-Réseaux (Tailscale)](#interconnexion-wan--relais-multi-réseaux-tailscale)
-- [Système de Plugins & Décorateur `@skill`](#système-de-plugins--décorateur-skill)
-- [Orchestrateur & Pipelines Multi-Agents](#orchestrateur--pipelines-multi-agents)
-- [Référence de la CLI](#référence-de-la-cli)
-- [Référence de l'API Python](#référence-de-lapi-python)
-- [Arborescence du Projet](#arborescence-du-projet)
-- [Exécution des Tests](#exécution-des-tests)
+## 📑 Table of Contents
+- [Architecture & Core Principles](#-architecture--core-principles)
+- [Quickstart](#-quickstart)
+- [Key Features](#-key-features)
+  - [1. Apple Silicon MLX GPU Engine & Metal Streaming](#1--apple-silicon-mlx-gpu-engine--metal-streaming)
+  - [2. Autonomous ReAct Agents & Self-Healing](#2--autonomous-react-agents--self-healing)
+  - [3. Episodic Memory & Persistent SQLite Vector Store](#3--episodic-memory--persistent-sqlite-vector-store)
+  - [4. Security: Ed25519 & E2EE Encryption](#4--security-ed25519--e2ee-encryption)
+  - [5. Bi-Directional MCP Gateway](#5--bi-directional-mcp-gateway)
+  - [6. Multi-Agent DAG Workflow Orchestrator](#6--multi-agent-dag-workflow-orchestrator)
+  - [7. Background System Daemon & SWIM Gossip Protocol](#7--background-system-daemon--swim-gossip-protocol)
+  - [8. Real-Time Web Dashboard & Telemetry](#8--real-time-web-dashboard--telemetry)
+- [Command-Line Interface (CLI)](#-command-line-interface-cli)
+- [Project Directory Structure](#-project-directory-structure)
+- [Running Automated Tests](#-running-automated-tests)
+- [License & Author](#-license--author)
 
 ---
 
-## Architecture & Principes Fondamentaux
+## 🏛️ Architecture & Core Principles
 
+```mermaid
+graph TD
+    subgraph "Node A (e.g. MacBook Pro M-Series)"
+        NodeA["🧠 JarvisNode (agent-a)"]
+        MLX["⚡ MLX-LM Engine (Metal VRAM)"]
+        AgentA["🤖 AutonomousAgent (ReAct)"]
+        MemoryA["💾 SQLiteVectorStore (Memory)"]
+        NodeA --- MLX
+        NodeA --- AgentA
+        NodeA --- MemoryA
+    end
+
+    subgraph "Node B (e.g. Mac Studio / Linux Server)"
+        NodeB["🛠️ JarvisNode (agent-b)"]
+        MCP["🔌 MCP Server Bridge (OS/Git Tools)"]
+        NodeB --- MCP
+    end
+
+    subgraph "Security & Networking"
+        Crypto["🛡️ E2EE (X25519 / ChaCha20-Poly1305) & Ed25519"]
+        Discovery["📡 mDNS Zeroconf + Gossip SWIM + WAN Relay"]
+    end
+
+    NodeA <== "Multiplexed WebSockets + E2EE" ==> NodeB
+    NodeA -.-> Discovery
+    NodeB -.-> Discovery
+    NodeA --- Crypto
+    NodeB --- Crypto
 ```
- ┌────────────────────────────────────────────────────────────────────────┐
- │                      TOPOLOGIE DISTRIBUÉE (LAN / WAN)                  │
- │                                                                        │
- │   ┌──────────────────┐          mDNS / WAN          ┌────────────────┐ │
- │   │  Nœud "A" (Mac)  │◄────────────────────────────►│ Nœud "B" (GPU) │ │
- │   │  • Orchestrateur │                              │ • llm (MLX)    │ │
- │   │  • RAG Local     │     WebSockets Multiplexés   │ • llm-stream   │ │
- │   │  • MCP Gateway   │◄────────────────────────────►│ • wordcount    │ │
- │   │  • Ed25519 Auth  │                              │ • Ed25519 Auth │ │
- │   └────────┬─────────┘                              └───────┬────────┘ │
- └────────────┼────────────────────────────────────────────────┼──────────┘
-              │                                                │
-              ▼                                                ▼
-    ┌──────────────────┐                             ┌──────────────────┐
-    │  Dashboard Web   │                             │  Apple Silicon   │
-    │  (Port 8080)     │                             │  (Metal / GPU)   │
-    └──────────────────┘                             └──────────────────┘
-```
-
-1. **Découverte Hybride** : Découverte locale mDNS (`_jarvismesh._tcp.local.`) et découverte WAN distante via le serveur de relais `MeshRelayServer` ou adresses statiques.
-2. **Multiplexage & Connexions Persistantes** : Un seul socket WebSocket partagé par paire de nœuds, gérant des dizaines de requêtes concurrentes sans blocage via `request_id`.
-3. **Routage Adaptatif par Charge (`_health`)** : Mesure continue de la VRAM Metal libre, des cœurs CPU et des tâches en cours pour router vers le pair le plus disponible.
-4. **Auto-Failover** : Bascule automatique transparente sur le pair suivant en cas de crash ou d'indisponibilité d'un nœud.
 
 ---
 
-## Installation
-
-### Prérequis
-- **Python 3.10+**
-- macOS (Apple Silicon recommandé pour MLX) ou Linux.
+## 🚀 Quickstart
 
 ```bash
-# Installation complète avec MLX, Cryptographie, Validation et Dev
-uv pip install -e ".[dev,mlx,validation]"
+# Clone repository
+git clone https://github.com/samajesteduroyaume/jarvismesh.git
+cd jarvismesh
 
-# Ou via pip standard
-pip install -e ".[mlx,validation]" --break-system-packages
+# Create virtual environment and install with MLX support
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev,mlx,validation]"
 ```
 
 ---
 
-## Démarrage Rapide
+## ✨ Key Features
 
-### 1. Générer une identité Ed25519 pour le nœud
+### 1. ⚡ Apple Silicon MLX GPU Engine & Metal Streaming
+JarvisMesh natively embeds MLX-LM optimized for unified Apple Silicon memory:
+- Synchronous inference (`llm`) and real-time token-by-token streaming (`llm-stream`).
+- Active Metal GPU memory tracking (`metal_active_mb`, `peak_mb`, `cache_mb`).
+
+### 2. 🤖 Autonomous ReAct Agents & Self-Healing
+Autonomous multi-step reasoning loop (*Thought ➔ Action ➔ Observation ➔ Final Answer*):
+- Automatically discovers available tools and skills across all mesh peers.
+- **Self-Healing**: If a skill call fails or parameters are invalid, the agent inspects the error observation and autonomously retries with an updated strategy.
+
 ```bash
-python -m jarvismesh.cli keygen --out node_selim.key
+jarvismesh agent "Inspect system memory and summarize cluster state"
 ```
 
-### 2. Démarrer un nœud IA avec MLX et RAG
-```bash
-python -m jarvismesh.cli start --name mac-selim --port 8765 \
-  --identity-file node_selim.key \
-  --model mlx-community/Qwen3.5-4B-MLX-4bit \
-  --rag-dir ./knowledge
+### 3. 🧠 Episodic Memory & Persistent SQLite Vector Store
+Persistent SQLite database (`~/.jarvismesh/memory.db`):
+- Dense multi-scale subword and character n-gram embeddings with cosine similarity.
+- Dialogue memory tracking (`ConversationMemory`) and associated skills (`memory_store`, `memory_recall`, `memory_search`).
+
+### 4. 🛡️ Security: Ed25519 & E2EE Encryption
+- **Asymmetric Ed25519 signatures** with `TrustStore` validation and anti-replay timestamps.
+- **End-to-End Encryption (E2EE)** via **X25519** ECDH key exchange and **ChaCha20-Poly1305** authenticated cipher, guaranteeing privacy even across public WAN relays.
+
+### 5. 🔌 Bi-Directional MCP Gateway
+- Ingests external **Model Context Protocol (MCP)** servers over stdio and exposes tools as distributed mesh skills.
+- Exposes JarvisMesh as an MCP tool server for Claude Desktop, Cursor, or Windsurf.
+
+### 6. 🔄 Multi-Agent DAG Workflow Orchestrator
+Declarative execution engine supporting sequential and parallel branching with template substitution:
+```json
+{
+  "name": "rag-pipeline",
+  "steps": [
+    { "name": "retrieve", "skill": "memory_search", "payload": { "query": "Metal GPU" } },
+    { "name": "synthesize", "skill": "llm", "payload": { "prompt": "Summarize: {steps.retrieve.result}" }, "depends_on": ["retrieve"] }
+  ]
+}
 ```
 
-### 3. Déléguer une tâche en streaming
+### 7. ⚙️ Background System Daemon & SWIM Gossip Protocol
+- Background system daemon management with native **macOS `launchd`** (`~/Library/LaunchAgents/`) and **Linux `systemd`**.
+- Epidemic **SWIM Gossip protocol** for scalable membership tracking and failure detection across 100+ nodes.
+
+### 8. 📊 Real-Time Web Dashboard & Telemetry
+Interactive web interface over SSE / WebSockets:
+- Real-time node topology, health, and latency visualization.
+- AI Inference Studio with token throughput (tokens/sec) and GPU Metal VRAM gauges.
+
+---
+
+## 💻 Command-Line Interface (CLI)
+
 ```bash
-python -m jarvismesh.cli ask llm-stream '{"prompt": "Résume le protocole JarvisMesh en 3 points"}' --stream
+# 1. Generate an Ed25519 identity key
+jarvismesh keygen --out node_id.key
+
+# 2. Start a node with MLX model and SQLite memory
+jarvismesh start --name mac-m3 --port 8765 --model mlx-community/Qwen2.5-Coder-7B-Instruct-4bit
+
+# 3. Launch an autonomous ReAct agent
+jarvismesh agent "Search security documentation and summarize findings"
+
+# 4. Manage background system service
+jarvismesh service install --name mac-m3 --port 8765
+jarvismesh service start
+jarvismesh service status
+
+# 5. Start the Web Dashboard
+jarvismesh dashboard --port 8080
 ```
 
 ---
 
-## Dashboard Web de Supervision
-
-JarvisMesh inclut un serveur HTTP/SSE et une interface Web moderne (Dark Mode, Glassmorphism).
-
-```bash
-python -m jarvismesh.cli dashboard --port 8080 --name mac-dashboard
-```
-Ouvrez **`http://localhost:8080`** :
-- **Topologie du Mesh** : Vue dynamique des nœuds connectés, adresses, latences et compétences.
-- **Télémétrie GPU Metal** : Jauges de VRAM Active, Pic, Cache et charge CPU en direct.
-- **Studio de Streaming** : Playground d'inférence avec calcul du débit en **tokens/seconde**.
-- **Runner de Workflows** : Visualisation de l'avancement des pipelines multi-agents.
-
----
-
-## Inférence LLM Locale avec MLX-LM
-
-Exploitez directement la mémoire unifiée et l'accélération GPU Metal des puces Apple Silicon.
-
-- **Modèle par défaut** : `mlx-community/Qwen3.5-4B-MLX-4bit` (ou tout modèle MLX Hugging Face).
-- **Streaming continu** : Compétence `llm-stream` pour affichage token-par-token.
-- **Gestion de mémoire** : Modèle maintenu sous forme de singleton avec télémétrie GPU (`metal_active_mb`, `metal_peak_mb`).
-
-```bash
-python -m jarvismesh.cli ask llm '{
-  "system_prompt": "Tu es un assistant technique expert en réseaux.",
-  "prompt": "Comment fonctionne le routage P2P ?",
-  "temperature": 0.3
-}'
-```
-
----
-
-## Sécurité : Authentification Asymétrique Ed25519 & HMAC
-
-### 1. Mode Asymétrique Ed25519 (Recommandé)
-Chaque agent possède sa clé privée. Le nœud récepteur dispose d'un `TrustStore` listant les clés publiques autorisées.
-- **Protection anti-rejeu** : Vérification stricte de l'horodatage (`ts`).
-- **Révocation instantanée** : La révocation d'une clé publique bloque immédiatement le nœud sans reconfigurer le reste du réseau.
-
-```bash
-# Génère une clé et l'ajoute au TrustStore
-python -m jarvismesh.cli keygen --out agent_a.key --add-to truststore.json --name agent-a
-
-# Démarre le serveur avec TrustStore
-python -m jarvismesh.cli start --name agent-serveur --port 8765 --authorized-keys truststore.json
-
-# Le client s'authentifie avec sa clé privée
-python -m jarvismesh.cli ask secret_skill --identity-file agent_a.key
-```
-
-### 2. Mode Symétrique PSK (HMAC-SHA256)
-Tous les nœuds partagent une variable secrète `JARVISMESH_PSK`.
-
----
-
-## Passerelle MCP Bi-directionnelle
-
-JarvisMesh s'intègre avec le **Model Context Protocol** d'Anthropic :
-
-### 1. Consommer des outils MCP sur le Mesh (Mode Client)
-Connectez n'importe quel serveur MCP stdio (ex: filesystem, git, sqlite, scripts custom) pour exposer automatiquement ses outils comme des compétences distribuées :
-```bash
-python -m jarvismesh.cli start --name mac-tools --port 8767 \
-  --mcp-command "npx -y @modelcontextprotocol/server-filesystem /Users/selim/Documents"
-```
-Les outils deviennent immédiatement disponibles pour tout le réseau : `mcp_read_file`, `mcp_list_directory`, etc.
-
-### 2. Exposer le Mesh comme Serveur MCP (Mode Serveur)
-Permet à **Claude Desktop**, **Cursor** ou **Antigravity** d'utiliser l'ensemble du réseau JarvisMesh comme fournisseur d'outils MCP :
-```bash
-python -m jarvismesh.cli mcp-server
-```
-
----
-
-## Mémoire Partagée & RAG Local Distribué
-
-Un moteur de base vectorielle embarquée et de recherche sémantique cosinus :
-
-- **`rag_index`** : Indexation de documents ou snippets de texte avec métadonnées.
-- **`rag_search`** : Recherche sémantique retournant les passages les plus pertinents avec scores.
-- **`rag_ask`** : Pipeline RAG complet qui retrouve les contextes pertinents et formule la réponse via le LLM MLX.
-
-```bash
-# Indexer un document
-python -m jarvismesh.cli ask rag_index '{"text": "Le projet JarvisMesh est sécurisé par Ed25519.", "id": "sec_doc"}'
-
-# Poser une question sur la base de connaissances
-python -m jarvismesh.cli ask rag_ask '{"question": "Comment est sécurisé JarvisMesh ?"}'
-```
-
----
-
-## Interconnexion WAN & Relais Multi-Réseaux (Tailscale)
-
-Connectez vos agents situés sur des réseaux différents (ex: Mac Studio au bureau + MacBook en déplacement) :
-
-### 1. Détection automatique Tailscale / VPN
-JarvisMesh détecte automatiquement les adresses IP du maillage Tailscale (`100.x.y.z`).
-
-### 2. Serveur Relais de Rendez-vous (`jarvismesh relay`)
-Permet l'auto-découverte sans multicast :
-```bash
-# Sur un serveur ou une machine fixe (ex: IP 100.64.0.1)
-python -m jarvismesh.cli relay --port 9000
-
-# Sur chaque nœud distant
-python -m jarvismesh.cli start --name mac-portable --port 8765 --relay-url http://100.64.0.1:9000
-```
-
----
-
-## Système de Plugins & Décorateur `@skill`
-
-Créez vos propres plugins Python avec validation Pydantic :
-
-```python
-# plugins/math_tools.py
-from jarvismesh import skill
-from pydantic import BaseModel, Field
-
-class FibPayload(BaseModel):
-    n: int = Field(ge=0, le=50)
-
-@skill(name="fibonacci", schema=FibPayload, description="Calcule le N-ième terme de Fibonacci")
-def fibonacci(payload: dict) -> dict:
-    n = payload["n"]
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return {"n": n, "result": a}
-```
-
-Chargement :
-```bash
-python -m jarvismesh.cli start --name mac-dev --port 8765 --skills-dir ./plugins
-```
-
----
-
-## Orchestrateur & Pipelines Multi-Agents
-
-Combinez plusieurs compétences en un pipeline séquentiel et parallèle avec injection de variables :
-
-```python
-from jarvismesh import Workflow, WorkflowStep
-
-wf = Workflow("Pipeline Résumé & Analyse")
-wf.add_step("redaction", skill="llm", payload={"prompt": "Rédige un article sur : {input.topic}"})
-wf.add_parallel_steps([
-    WorkflowStep("comptage", skill="wordcount", payload={"text": "{steps.redaction.result.response}"}),
-    WorkflowStep("indexation", skill="rag_index", payload={"text": "{steps.redaction.result.response}"}),
-])
-
-result = await wf.run(node, initial_input={"topic": "L'informatique quantique"})
-```
-
-Exécution depuis un fichier JSON :
-```bash
-python -m jarvismesh.cli workflow pipeline.json --input '{"topic": "Les réseaux P2P"}'
-```
-
----
-
-## Référence de la CLI
-
-| Commande | Arguments principaux | Description |
-| :--- | :--- | :--- |
-| `jarvismesh keygen` | `--out <file>`, `--add-to <truststore>`, `--name <str>` | Génère une paire de clés asymétriques Ed25519. |
-| `jarvismesh start` | `--name <str>`, `--port <int>`, `--identity-file <file>`, `--authorized-keys <file>`, `--rag-dir <dir>`, `--mcp-command <cmd>`, `--relay-url <url>`, `--skills-dir <dir>`, `--model <str>` | Démarre un nœud complet avec toutes ses extensions. |
-| `jarvismesh ask` | `<skill> [payload]`, `--peer <str>`, `--stream`, `--identity-file <file>`, `--psk <str>` | Délègue une tâche à un agent du réseau en direct. |
-| `jarvismesh dashboard` | `--port <int>`, `--node-port <int>`, `--name <str>`, `--skills-dir <dir>` | Lance le Dashboard Web interactif de supervision. |
-| `jarvismesh workflow` | `<file.json>`, `--input <json>`, `--psk <str>` | Exécute un workflow multi-agents défini en JSON. |
-| `jarvismesh relay` | `--port <int>`, `--host <str>` | Démarre le serveur de relais / rendez-vous WAN. |
-| `jarvismesh mcp-server` | `--name <str>` | Exécute JarvisMesh en tant que serveur d'outils MCP stdio. |
-
----
-
-## Référence de l'API Python
-
-```python
-from jarvismesh import (
-    JarvisNode, NodeIdentity, TrustStore, 
-    Workflow, WorkflowStep, 
-    LocalVectorStore, RAGManager,
-    MCPClientBridge, MCPServerBridge,
-    MeshRelayServer, WANPeerManager,
-    skill, SkillRegistry
-)
-```
-
----
-
-## Arborescence du Projet
+## 📂 Project Directory Structure
 
 ```text
 jarvismesh/
-├── jarvismesh/               # Code source du package
-│   ├── __init__.py           # Exports de l'API publique
-│   ├── protocol.py           # Protocoles de messages JSON, signatures HMAC & Ed25519
-│   ├── crypto.py             # Gestion des clés Ed25519 & TrustStore
-│   ├── e2ee.py               # Chiffrement de bout en bout X25519 & ChaCha20-Poly1305
-│   ├── node.py               # Nœud P2P, multiplexage, découverte, routage adaptatif
-│   ├── skills.py             # Registre de compétences, décorateur @skill & outils de base
-│   ├── mlx_engine.py         # Moteur MLX-LM dédié, streaming Metal, métriques VRAM
-│   ├── orchestrator.py       # Moteur de workflows multi-agents (séquentiel/parallèle)
-│   ├── agent.py              # Agent Autonome ReAct & Function Calling Distribué
-│   ├── memory.py             # Base vectorielle SQLite persistante & mémoire épisodique
-│   ├── mcp_bridge.py         # Passerelle bi-directionnelle Model Context Protocol (MCP)
-│   ├── rag.py                # Base vectorielle locale TF-IDF & compétences RAG
-│   ├── wan.py                # Détection Tailscale, relais WAN & synchronisation distante
-│   ├── daemon.py             # Service démon d'arrière-plan macOS launchd / Linux systemd
-│   ├── gossip.py             # Protocole Gossip SWIM pour cluster haute échelle
-│   ├── cli.py                # Interface en ligne de commande complète
-│   └── dashboard/            # Serveur HTTP/SSE & Dashboard Web interactif
-├── tests/                    # Suites de tests automatisées (100% pytest pass rate)
-│   ├── conftest.py           # Configuration de test et bootstrap PYTHONPATH
-│   ├── test_agent_react.py   # Tests de l'agent ReAct et auto-réparation (self-healing)
-│   ├── test_e2ee.py          # Tests du chiffrement E2EE X25519/ChaCha20
-│   ├── test_memory_sqlite.py # Tests de la mémoire SQLite et embeddings denses
-│   ├── test_gossip_daemon.py # Tests du protocole Gossip SWIM et launchd/systemd
-│   ├── test_crypto_ed25519.py# Tests de signature Ed25519, TrustStore et anti-rejeu
-│   ├── test_mcp_bridge.py    # Tests du pont d'outils MCP stdio
-│   ├── test_rag.py           # Tests d'indexation, recherche cosinus et RAG
-│   ├── test_wan_relay.py     # Tests de découverte et routage WAN via relais
-│   ├── test_skills_loader.py # Tests du décorateur @skill et chargement dynamique
-│   ├── test_orchestrator.py  # Tests du moteur de workflows DAG
-│   ├── test_dashboard.py     # Tests de l'API REST et du serveur Web
-│   ├── test_mlx.py           # Tests d'inférence MLX et streaming Metal
-│   ├── test_core_mesh.py     # Tests du flux de base, multiplexage et failover
-│   └── test_improvements.py  # Tests d'authentification HMAC et routage par santé
-├── examples/                 # Scripts et cas d'usage réels
-│   ├── rag_multiagent_workflow.py # Pipeline complet RAG + LLM MLX + Analyse Parallèle
-│   └── mcp_system_tools.py        # Intégration d'outils système via passerelle MCP
-├── workflows/                # Définitions de pipelines multi-agents (JSON)
-│   └── rag_pipeline.json     # Workflow déclaratif RAG & Synthèse
-├── pyproject.toml            # Métadonnées et packaging du projet
-├── .gitignore                # Fichiers et dossiers ignorés par Git
-└── README.md                 # Documentation exhaustive du projet
+├── jarvismesh/               # Core package source code
+│   ├── __init__.py           # Public API exports
+│   ├── node.py               # P2P Node, multiplexing, discovery, adaptive routing
+│   ├── protocol.py           # JSON schemas, HMAC & Ed25519 signatures
+│   ├── crypto.py             # Ed25519 identities & TrustStore
+│   ├── e2ee.py               # End-to-end encryption X25519 & ChaCha20-Poly1305
+│   ├── mlx_engine.py         # Dedicated MLX-LM engine, Metal streaming, VRAM metrics
+│   ├── agent.py              # Autonomous ReAct Agent & Distributed Function Calling
+│   ├── memory.py             # Persistent SQLite vector store & episodic memory
+│   ├── orchestrator.py       # DAG multi-agent workflow engine
+│   ├── mcp_bridge.py         # Bi-directional MCP gateway
+│   ├── rag.py                # Local TF-IDF vector store & RAG skills
+│   ├── wan.py                # WAN relay & remote node synchronization
+│   ├── daemon.py             # System daemon manager (macOS launchd / Linux systemd)
+│   ├── gossip.py             # SWIM Gossip protocol for large-scale clusters
+│   ├── cli.py                # Comprehensive CLI interface
+│   └── dashboard/            # HTTP/SSE server & dark glassmorphic Web UI
+├── tests/                    # 14 automated test suites (100% pytest pass rate)
+├── examples/                 # Production scripts and real-world workflows
+├── workflows/                # Declarative JSON workflow definitions
+├── pyproject.toml            # Project packaging & dependencies
+├── LICENSE                   # MIT License (Selim Marouani)
+├── README.fr.md              # French documentation
+└── README.md                 # English documentation
 ```
 
 ---
 
-## Exécution des Tests
+## 🧪 Running Automated Tests
 
-L'intégralité des 14 suites de tests valide l'ensemble du maillage en une seule commande :
+Run all 14 test suites in a single command via `pytest`:
 
 ```bash
-# Lancer tous les tests (22 tests validés à 100%)
 .venv/bin/python -m pytest tests/
+```
 
-# Ou lancer un test spécifique
+Or execute individual test suites:
+```bash
 .venv/bin/python tests/test_agent_react.py
 .venv/bin/python tests/test_e2ee.py
 .venv/bin/python tests/test_memory_sqlite.py
@@ -371,7 +213,7 @@ L'intégralité des 14 suites de tests valide l'ensemble du maillage en une seul
 
 ---
 
-## Licence
+## 📜 License & Author
 
-Distribué sous licence **MIT**.
-
+Created and maintained by **Selim Marouani**.  
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.

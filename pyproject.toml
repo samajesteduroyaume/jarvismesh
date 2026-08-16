@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jarvismesh"
-version = "0.2.0"
-description = "Protocole d'agents IA locaux, souverain — découverte mDNS + délégation de tâches par websocket, sans cloud ni serveur central."
+version = "0.3.0"
+description = "Sovereign distributed P2P mesh for local AI agents — mDNS/WAN discovery, E2EE encryption, Apple Silicon MLX GPU inference, and autonomous ReAct agents."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Selim" }]
+authors = [{ name = "Selim Marouani" }]
 dependencies = [
     "websockets>=12.0",
     "zeroconf>=0.130.0",
