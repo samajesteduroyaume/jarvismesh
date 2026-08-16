@@ -48,7 +48,10 @@ class STUNClient:
         sock.settimeout(timeout)
         sock.bind(("", local_port))
         actual_local_port = sock.getsockname()[1]
-        local_ip = socket.gethostbyname(socket.gethostname())
+        try:
+            local_ip = socket.gethostbyname(socket.gethostname())
+        except Exception:
+            local_ip = "127.0.0.1"
 
         # Construction du paquet STUN RFC 5389 Header (20 octets)
         # Message Type (2 bytes) = 0x0001

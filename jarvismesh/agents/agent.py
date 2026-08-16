@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Optional
 
-from .node import JarvisNode
+from ..core.node import JarvisNode
 
 
 @dataclass

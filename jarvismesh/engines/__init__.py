@@ -1,17 +1,18 @@
 """
 Sous-package Engines : Moteurs d'inférence Apple Silicon (LLM MLX-LM, Multi-Models, Vision VLM, Audio Whisper).
 """
-from ..mlx_engine import (
+from .mlx_engine import (
     MLXModelManager,
     llm,
     llm_stream,
     mlx_health_extra,
     LLMPayload,
     DEFAULT_MODEL_NAME,
+    _HAS_MLX,
 )
-from ..models import MultiModelManager, ModelSlot
-from ..vlm_engine import VLMModelManager, get_vlm_skills, DEFAULT_VLM_MODEL
-from ..audio_engine import AudioTranscriber, get_audio_skills, DEFAULT_AUDIO_MODEL
+from .models import MultiModelManager, ModelSlot
+from .vlm_engine import VLMModelManager, get_vlm_skills, DEFAULT_VLM_MODEL
+from .audio_engine import AudioTranscriber, get_audio_skills, DEFAULT_AUDIO_MODEL
 
 __all__ = [
     "MLXModelManager",
@@ -20,6 +21,7 @@ __all__ = [
     "mlx_health_extra",
     "LLMPayload",
     "DEFAULT_MODEL_NAME",
+    "_HAS_MLX",
     "MultiModelManager",
     "ModelSlot",
     "VLMModelManager",

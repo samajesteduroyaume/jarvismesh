@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from jarvismesh import JarvisNode, Workflow, WorkflowStep, LocalVectorStore, RAGManager
 from jarvismesh.skills import BUILTIN_SKILLS, SkillRegistry
-from jarvismesh.mlx_engine import mlx_health_extra
+from jarvismesh.engines import mlx_health_extra
 
 
 async def run_rag_workflow():

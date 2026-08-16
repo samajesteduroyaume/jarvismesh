@@ -7,8 +7,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.gossip import GossipCluster, GossipMember, MemberState
-from jarvismesh.daemon import (
+from jarvismesh.core import GossipCluster, GossipMember, MemberState
+from jarvismesh.system import (
     ServiceManager,
     generate_macos_plist,
     generate_systemd_unit,

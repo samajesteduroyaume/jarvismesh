@@ -40,7 +40,7 @@ from .protocol import (
     TaskRequest, TaskChunk, TaskResponse, parse_message, SERVICE_TYPE,
     DESCRIBE_SKILL, HEALTH_SKILL, RESERVED_SKILLS, verify_request,
 )
-from .crypto import verify_ed25519_signature
+from ..security.crypto import verify_ed25519_signature
 
 try:
     from pydantic import BaseModel, ValidationError

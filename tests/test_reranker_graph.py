@@ -2,8 +2,8 @@
 Tests pour le re-classement sémantique et le graphe de connaissances (GraphRAG).
 """
 import pytest
-from jarvismesh.reranker import SemanticReranker, get_reranker_skills
-from jarvismesh.graph_memory import KnowledgeGraphStore, get_graph_skills
+from jarvismesh.memory import SemanticReranker, get_reranker_skills
+from jarvismesh.memory import KnowledgeGraphStore, get_graph_skills
 
 
 def test_semantic_reranker():

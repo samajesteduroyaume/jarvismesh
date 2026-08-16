@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
+from jarvismesh.core import JarvisNode
 from jarvismesh.skills import skill, SkillRegistry, default_registry
 
 

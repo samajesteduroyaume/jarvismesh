@@ -12,9 +12,9 @@ import time
 from pathlib import Path
 from typing import Any, Callable, Optional, Set
 
-from ..node import JarvisNode
-from ..orchestrator import Workflow
-from ..protocol import DESCRIBE_SKILL, HEALTH_SKILL
+from ...core.node import JarvisNode
+from ...agents.orchestrator import Workflow
+from ...core.protocol import DESCRIBE_SKILL, HEALTH_SKILL
 
 STATIC_DIR = Path(__file__).parent / "static"
 

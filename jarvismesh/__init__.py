@@ -122,6 +122,7 @@ from .system import (
     ServiceManager,
     DashboardServer,
     run_dashboard,
+    main,
 )
 
 # Sous-packages
@@ -227,4 +228,5 @@ __all__ = [
     "ServiceManager",
     "DashboardServer",
     "run_dashboard",
+    "main",
 ]

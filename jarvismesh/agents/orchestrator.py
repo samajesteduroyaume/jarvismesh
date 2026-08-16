@@ -14,8 +14,8 @@ import time
 from dataclasses import dataclass, field, asdict
 from typing import Any, Callable, Optional, Union
 
-from .node import JarvisNode
-from .protocol import TaskResponse
+from ..core.node import JarvisNode
+from ..core.protocol import TaskResponse
 
 
 @dataclass

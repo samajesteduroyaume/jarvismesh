@@ -3,7 +3,7 @@ Tests pour le moteur Vision VLM et l'analyse multimodale (jarvismesh.vlm_engine)
 """
 import base64
 import pytest
-from jarvismesh.vlm_engine import VLMModelManager, get_vlm_skills
+from jarvismesh.engines import VLMModelManager, get_vlm_skills
 
 
 def test_vlm_image_analysis_formats():

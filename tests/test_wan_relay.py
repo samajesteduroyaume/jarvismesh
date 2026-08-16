@@ -7,8 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.wan import MeshRelayServer, WANPeerManager
+from jarvismesh.core import JarvisNode, MeshRelayServer, WANPeerManager
 
 
 async def test_wan_relay():

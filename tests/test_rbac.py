@@ -2,7 +2,7 @@
 Tests pour la sécurité RBAC et le contrôle des permissions (jarvismesh.rbac).
 """
 import pytest
-from jarvismesh.rbac import RBACManager
+from jarvismesh.security import RBACManager
 
 
 def test_rbac_default_roles_and_permissions():

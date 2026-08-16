@@ -14,7 +14,7 @@ import re
 import time
 from typing import Any, Callable, Dict, Optional, Tuple
 
-from .skills import SkillRegistry, default_registry
+from ..skills.registry import SkillRegistry, default_registry
 
 
 # Modules et fonctions sûrs autorisés dans la sandbox

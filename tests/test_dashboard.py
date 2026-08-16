@@ -9,9 +9,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
+from jarvismesh.core import JarvisNode
 from jarvismesh.skills import DEFAULT_SKILLS, DEFAULT_SCHEMAS
-from jarvismesh.dashboard import DashboardServer
+from jarvismesh.system import DashboardServer
 
 
 def _sync_http_get(url: str):

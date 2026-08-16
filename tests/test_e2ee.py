@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest
-from jarvismesh.e2ee import (
+from jarvismesh.security import (
     E2EEIdentity,
     E2EESession,
     encrypt_for_peer,

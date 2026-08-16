@@ -14,8 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.protocol import DESCRIBE_SKILL, HEALTH_SKILL
+from jarvismesh.core import JarvisNode, DESCRIBE_SKILL, HEALTH_SKILL
 from jarvismesh.skills import DEFAULT_SKILLS, DEFAULT_SCHEMAS
 
 

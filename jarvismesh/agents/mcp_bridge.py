@@ -14,8 +14,8 @@ import shlex
 import sys
 from typing import Any, Callable, Optional
 
-from .node import JarvisNode
-from .skills import SkillRegistry
+from ..core.node import JarvisNode
+from ..skills.registry import SkillRegistry
 
 
 class MCPClientBridge:

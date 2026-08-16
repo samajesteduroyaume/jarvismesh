@@ -2,7 +2,7 @@
 Tests pour la perforation de NAT P2P et le client STUN (jarvismesh.nat_p2p).
 """
 import pytest
-from jarvismesh.nat_p2p import STUNClient, NATTraversalManager, STUNEndpoint
+from jarvismesh.core import STUNClient, NATTraversalManager, STUNEndpoint
 
 
 def test_nat_traversal_manager():

@@ -9,8 +9,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.rag import LocalVectorStore, RAGManager
+from jarvismesh.core import JarvisNode
+from jarvismesh.memory import LocalVectorStore, RAGManager
 
 
 async def test_rag():

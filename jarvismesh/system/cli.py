@@ -27,23 +27,23 @@ import os
 import sys
 from pathlib import Path
 
-from .node import JarvisNode
-from .skills import SkillRegistry, DEFAULT_SKILLS, DEFAULT_SCHEMAS, BUILTIN_SKILLS
-from .mlx_engine import (
+from ..core.node import JarvisNode
+from ..core.wan import MeshRelayServer, WANPeerManager, detect_tailscale_ip
+from ..security.crypto import NodeIdentity, TrustStore
+from ..engines.mlx_engine import (
     DEFAULT_MODEL_NAME,
     MLXModelManager,
     mlx_health_extra,
     _HAS_MLX,
 )
-from .orchestrator import Workflow
-from .dashboard import run_dashboard
-from .crypto import NodeIdentity, TrustStore
-from .mcp_bridge import MCPClientBridge, MCPServerBridge
-from .rag import LocalVectorStore, RAGManager
-from .wan import MeshRelayServer, WANPeerManager, detect_tailscale_ip
-from .memory import SQLiteVectorStore, ConversationMemory
-from .agent import AutonomousAgent, AgentStep
+from ..memory.vector import SQLiteVectorStore, ConversationMemory
+from ..memory.rag import LocalVectorStore, RAGManager
+from ..agents.agent import AutonomousAgent, AgentStep
+from ..agents.orchestrator import Workflow
+from ..agents.mcp_bridge import MCPClientBridge, MCPServerBridge
+from ..skills.registry import SkillRegistry, DEFAULT_SKILLS, DEFAULT_SCHEMAS, BUILTIN_SKILLS
 from .daemon import ServiceManager
+from .dashboard import run_dashboard
 
 
 def _resolve_psk(args) -> str | None:

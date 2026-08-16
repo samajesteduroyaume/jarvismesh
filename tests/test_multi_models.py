@@ -3,14 +3,14 @@ Tests pour le gestionnaire multi-modèles et cache LRU Metal GPU (jarvismesh.mod
 """
 import pytest
 from unittest.mock import MagicMock, patch
-from jarvismesh.models import MultiModelManager, ModelSlot
+from jarvismesh.engines import MultiModelManager, ModelSlot
 
 
 def test_multi_model_lru_eviction():
     print("\n== Test MultiModelManager: Éviction LRU de VRAM ==")
     
     # Mock du chargement mlx_lm
-    with patch("jarvismesh.models._HAS_MLX", True), \
+    with patch("jarvismesh.engines.models._HAS_MLX", True), \
          patch("mlx_lm.load") as mock_load:
         
         mock_load.side_effect = lambda name: (MagicMock(name=f"model_{name}"), MagicMock(name=f"tok_{name}"))
@@ -40,7 +40,7 @@ def test_multi_model_lru_eviction():
 
 
 def test_multi_model_status():
-    with patch("jarvismesh.models._HAS_MLX", True), \
+    with patch("jarvismesh.engines.models._HAS_MLX", True), \
          patch("mlx_lm.load") as mock_load:
         mock_load.side_effect = lambda name: (MagicMock(), MagicMock())
         mgr = MultiModelManager(max_loaded=3)

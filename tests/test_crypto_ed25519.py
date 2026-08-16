@@ -9,9 +9,8 @@ import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.protocol import TaskRequest
-from jarvismesh.crypto import NodeIdentity, TrustStore, verify_ed25519_signature
+from jarvismesh.core import JarvisNode, TaskRequest
+from jarvismesh.security import NodeIdentity, TrustStore, verify_ed25519_signature
 
 
 async def test_ed25519_auth():

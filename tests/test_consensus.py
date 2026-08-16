@@ -2,7 +2,7 @@
 Tests pour le consensus et débat multi-agents (jarvismesh.consensus).
 """
 import pytest
-from jarvismesh.consensus import MultiAgentConsensus, AgentVote
+from jarvismesh.agents import MultiAgentConsensus, AgentVote
 
 
 async def test_multiagent_majority_and_weighted_vote():

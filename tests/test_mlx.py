@@ -12,13 +12,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.protocol import HEALTH_SKILL
+from jarvismesh.core import JarvisNode, HEALTH_SKILL
 from jarvismesh.skills import DEFAULT_SKILLS, DEFAULT_SCHEMAS
-from jarvismesh.mlx_engine import (
+from jarvismesh.engines import (
+    DEFAULT_MODEL_NAME,
     MLXModelManager,
     mlx_health_extra,
     _HAS_MLX,
+    llm,
 )
 
 

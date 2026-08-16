@@ -9,8 +9,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
-from jarvismesh.mcp_bridge import MCPClientBridge
+from jarvismesh.core import JarvisNode
+from jarvismesh.agents import MCPClientBridge
 
 
 async def test_mcp_bridge():

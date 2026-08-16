@@ -7,9 +7,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jarvismesh.node import JarvisNode
+from jarvismesh.core import JarvisNode
 from jarvismesh.skills import DEFAULT_SKILLS, DEFAULT_SCHEMAS
-from jarvismesh.agent import AutonomousAgent, AgentStep, AgentTrace
+from jarvismesh.agents import AutonomousAgent, AgentStep, AgentTrace
 
 
 async def test_react_agent_reasoning_and_tool_call():

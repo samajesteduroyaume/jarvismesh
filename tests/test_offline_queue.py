@@ -2,7 +2,7 @@
 Tests pour la file d'attente persistante et résilience hors-ligne (Store & Forward).
 """
 import pytest
-from jarvismesh.offline_queue import PersistentTaskQueue
+from jarvismesh.agents import PersistentTaskQueue
 
 
 async def test_offline_task_queue_store_and_forward():

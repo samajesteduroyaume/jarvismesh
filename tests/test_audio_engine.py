@@ -3,7 +3,7 @@ Tests pour le moteur audio et la transcription vocale (jarvismesh.audio_engine).
 """
 import base64
 import pytest
-from jarvismesh.audio_engine import AudioTranscriber, get_audio_skills
+from jarvismesh.engines import AudioTranscriber, get_audio_skills
 
 
 def test_audio_transcriber_formats():

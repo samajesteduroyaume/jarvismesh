@@ -2,7 +2,7 @@
 Tests pour la sérialisation binaire et la compression de données (jarvismesh.binary_protocol).
 """
 import pytest
-from jarvismesh.binary_protocol import BinaryMessageEncoder, MAGIC_BINARY_HEADER
+from jarvismesh.core import BinaryMessageEncoder, MAGIC_BINARY_HEADER
 
 
 def test_binary_encode_decode_roundtrip():

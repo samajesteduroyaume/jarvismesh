@@ -2,7 +2,7 @@
 Tests pour la sandbox de code sécurisée et l'auto-programmation de compétences (jarvismesh.sandbox).
 """
 import pytest
-from jarvismesh.sandbox import (
+from jarvismesh.security import (
     SandboxSkillExecutor,
     DynamicSkillManager,
     get_sandbox_skills,
