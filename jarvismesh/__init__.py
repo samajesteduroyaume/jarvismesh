@@ -13,6 +13,12 @@ from .memory import SQLiteVectorStore, DenseEmbeddingEngine, ConversationMemory,
 from .agent import AutonomousAgent, AgentStep, AgentTrace
 from .daemon import ServiceManager
 from .gossip import GossipCluster, GossipMember, MemberState
+from .models import MultiModelManager, ModelSlot
+from .reranker import SemanticReranker, get_reranker_skills
+from .graph_memory import KnowledgeGraphStore, get_graph_skills
+from .offline_queue import PersistentTaskQueue, QueuedTask
+from .consensus import MultiAgentConsensus, ConsensusResult, AgentVote
+from .rbac import RBACManager, DEFAULT_ROLES
 
 __all__ = [
     "JarvisNode",
@@ -58,5 +64,19 @@ __all__ = [
     "GossipCluster",
     "GossipMember",
     "MemberState",
+    "MultiModelManager",
+    "ModelSlot",
+    "SemanticReranker",
+    "get_reranker_skills",
+    "KnowledgeGraphStore",
+    "get_graph_skills",
+    "PersistentTaskQueue",
+    "QueuedTask",
+    "MultiAgentConsensus",
+    "ConsensusResult",
+    "AgentVote",
+    "RBACManager",
+    "DEFAULT_ROLES",
 ]
+
 

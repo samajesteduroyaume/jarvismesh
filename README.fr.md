@@ -174,8 +174,14 @@ jarvismesh/
 │   ├── crypto.py             # Gestion des clés Ed25519 & TrustStore
 │   ├── e2ee.py               # Chiffrement de bout en bout X25519 & ChaCha20-Poly1305
 │   ├── mlx_engine.py         # Moteur MLX-LM dédié, streaming Metal, métriques VRAM
+│   ├── models.py             # Multi-Model Manager avec cache LRU Metal GPU
 │   ├── agent.py              # Agent Autonome ReAct & Function Calling Distribué
 │   ├── memory.py             # Base vectorielle SQLite persistante & mémoire épisodique
+│   ├── reranker.py           # Reranker Sémantique Cross-Encoder
+│   ├── graph_memory.py       # Graphe de Connaissances GraphRAG
+│   ├── offline_queue.py      # File d'attente persistante Store & Forward
+│   ├── consensus.py          # Consensus, Vote & Débat Multi-Agents
+│   ├── rbac.py               # Contrôle d'accès par rôles (RBAC) & politiques de sécurité
 │   ├── orchestrator.py       # Moteur de workflows multi-agents DAG
 │   ├── mcp_bridge.py         # Passerelle bi-directionnelle MCP
 │   ├── rag.py                # Base vectorielle locale TF-IDF & compétences RAG
@@ -184,7 +190,7 @@ jarvismesh/
 │   ├── gossip.py             # Protocole Gossip SWIM pour cluster haute échelle
 │   ├── cli.py                # Interface CLI complète
 │   └── dashboard/            # Serveur HTTP/SSE & Dashboard Web interactif
-├── tests/                    # 14 suites de tests automatisées (100% pass)
+├── tests/                    # 19 suites de tests automatisées (100% pass, 34 tests)
 ├── examples/                 # Scripts et cas d'usage de production
 ├── workflows/                # Définitions de pipelines DAG en JSON
 ├── pyproject.toml            # Configuration et packaging
@@ -196,7 +202,7 @@ jarvismesh/
 
 ## 🧪 Exécution des Tests
 
-L'intégralité des 14 suites de tests est exécutable via `pytest` :
+L'intégralité des 19 suites de tests (34 tests validés à 100%) est exécutable via `pytest` :
 
 ```bash
 .venv/bin/python -m pytest tests/

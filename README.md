@@ -174,8 +174,14 @@ jarvismesh/
 │   ├── crypto.py             # Ed25519 identities & TrustStore
 │   ├── e2ee.py               # End-to-end encryption X25519 & ChaCha20-Poly1305
 │   ├── mlx_engine.py         # Dedicated MLX-LM engine, Metal streaming, VRAM metrics
+│   ├── models.py             # Multi-Model Manager with LRU Metal GPU cache
 │   ├── agent.py              # Autonomous ReAct Agent & Distributed Function Calling
 │   ├── memory.py             # Persistent SQLite vector store & episodic memory
+│   ├── reranker.py           # Semantic Cross-Encoder Reranker
+│   ├── graph_memory.py       # Knowledge Graph Store (GraphRAG)
+│   ├── offline_queue.py      # Store & Forward persistent task queue
+│   ├── consensus.py          # Multi-Agent Consensus, Voting & Adversarial Debate
+│   ├── rbac.py               # Role-Based Access Control (RBAC) security policy
 │   ├── orchestrator.py       # DAG multi-agent workflow engine
 │   ├── mcp_bridge.py         # Bi-directional MCP gateway
 │   ├── rag.py                # Local TF-IDF vector store & RAG skills
@@ -184,7 +190,7 @@ jarvismesh/
 │   ├── gossip.py             # SWIM Gossip protocol for large-scale clusters
 │   ├── cli.py                # Comprehensive CLI interface
 │   └── dashboard/            # HTTP/SSE server & dark glassmorphic Web UI
-├── tests/                    # 14 automated test suites (100% pytest pass rate)
+├── tests/                    # 19 automated test suites (100% pytest pass rate, 34 tests)
 ├── examples/                 # Production scripts and real-world workflows
 ├── workflows/                # Declarative JSON workflow definitions
 ├── pyproject.toml            # Project packaging & dependencies
@@ -197,7 +203,7 @@ jarvismesh/
 
 ## 🧪 Running Automated Tests
 
-Run all 14 test suites in a single command via `pytest`:
+Run all 19 test suites in a single command via `pytest` (34 tests passed):
 
 ```bash
 .venv/bin/python -m pytest tests/
