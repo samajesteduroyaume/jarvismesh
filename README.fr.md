@@ -168,33 +168,48 @@ jarvismesh dashboard --port 8080
 ```text
 jarvismesh/
 ├── jarvismesh/               # Code source du package
-│   ├── __init__.py           # Exports de l'API publique
-│   ├── node.py               # Nœud P2P, multiplexage, découverte, routage adaptatif
-│   ├── protocol.py           # Messages JSON, signatures HMAC & Ed25519
-│   ├── crypto.py             # Gestion des clés Ed25519 & TrustStore
-│   ├── e2ee.py               # Chiffrement de bout en bout X25519 & ChaCha20-Poly1305
-│   ├── mlx_engine.py         # Moteur MLX-LM dédié, streaming Metal, métriques VRAM
-│   ├── models.py             # Multi-Model Manager avec cache LRU Metal GPU
-│   ├── vlm_engine.py         # Moteur Vision Multimodale VLM (Qwen2-VL, Pixtral)
-│   ├── audio_engine.py       # Moteur Audio & Transcription vocale Whisper
-│   ├── nat_p2p.py            # Perforation de NAT P2P directe (STUN / ICE hole punching)
-│   ├── binary_protocol.py    # Protocole binaire & compression Zstandard
-│   ├── sandbox.py            # Sandbox isolée & Auto-programmation de @skill dynamiques
-│   ├── agent.py              # Agent Autonome ReAct & Function Calling Distribué
-│   ├── memory.py             # Base vectorielle SQLite persistante & mémoire épisodique
-│   ├── reranker.py           # Reranker Sémantique Cross-Encoder
-│   ├── graph_memory.py       # Graphe de Connaissances GraphRAG
-│   ├── offline_queue.py      # File d'attente persistante Store & Forward
-│   ├── consensus.py          # Consensus, Vote & Débat Multi-Agents
-│   ├── rbac.py               # Contrôle d'accès par rôles (RBAC) & politiques de sécurité
-│   ├── orchestrator.py       # Moteur de workflows multi-agents DAG
-│   ├── mcp_bridge.py         # Passerelle bi-directionnelle MCP
-│   ├── rag.py                # Base vectorielle locale TF-IDF & compétences RAG
-│   ├── wan.py                # Relais WAN & synchronisation distante
-│   ├── daemon.py             # Service démon macOS launchd / Linux systemd
-│   ├── gossip.py             # Protocole Gossip SWIM pour cluster haute échelle
-│   ├── cli.py                # Interface CLI complète
-│   └── dashboard/            # Serveur HTTP/SSE & Dashboard Web interactif
+│   ├── __init__.py           # Exports de l'API publique (100% rétrocompatible)
+│   ├── core/                 # 🌐 Réseau P2P, Multiplexeur WebSocket, STUN/NAT & Gossip
+│   │   ├── __init__.py
+│   │   ├── node.py           # Nœud P2P JarvisNode & routage adaptatif
+│   │   ├── protocol.py       # Enveloppes de messages & signatures HMAC
+│   │   ├── binary_protocol.py# Sérialisation binaire & compression Zstandard
+│   │   ├── nat_p2p.py        # Client STUN RFC 5389 & Perforation NAT P2P
+│   │   ├── wan.py            # Relais WAN & synchronisation distante
+│   │   └── gossip.py         # Détecteur de pannes SWIM Gossip haute échelle
+│   ├── security/             # 🔐 Cryptographie, E2EE X25519, RBAC & Sandbox
+│   │   ├── __init__.py
+│   │   ├── crypto.py         # Paires de clés Ed25519 & TrustStore
+│   │   ├── e2ee.py           # Chiffrement bout en bout X25519 & ChaCha20-Poly1305
+│   │   ├── rbac.py           # Contrôle d'accès par rôles (RBAC) & permissions
+│   │   └── sandbox.py        # Sandbox isolée AST & exécution de skills
+│   ├── engines/              # ⚡ Moteurs d'Inférence Apple Silicon Metal GPU
+│   │   ├── __init__.py
+│   │   ├── mlx_engine.py     # Moteur MLX-LM dédié, streaming Metal, métriques VRAM
+│   │   ├── models.py         # Multi-Model Manager avec cache LRU VRAM
+│   │   ├── vlm_engine.py     # Moteur Vision Multimodale (Qwen2-VL, Pixtral)
+│   │   └── audio_engine.py   # Speech-to-Text & Transcription vocale Whisper
+│   ├── memory/               # 🧠 Stockage Persistant, RAG & Graphe de Connaissances
+│   │   ├── __init__.py
+│   │   ├── vector.py         # Base vectorielle SQLite persistante & mémoire épisodique
+│   │   ├── rag.py            # Base locale TF-IDF & compétences RAG
+│   │   ├── reranker.py       # Reranker Sémantique Cross-Encoder
+│   │   └── graph_memory.py   # Graphe de connaissances GraphRAG (Triplets SQLite)
+│   ├── agents/               # 🤖 Agents Autonomes & Coordination de Swarm
+│   │   ├── __init__.py
+│   │   ├── agent.py          # Agent Autonome ReAct & Function Calling Distribué
+│   │   ├── orchestrator.py   # Moteur de workflows multi-agents DAG
+│   │   ├── consensus.py      # Consensus, Vote & Débat Multi-Agents
+│   │   ├── offline_queue.py  # File d'attente persistante Store & Forward
+│   │   └── mcp_bridge.py     # Passerelle bi-directionnelle MCP
+│   ├── skills/               # 🛠️ Registre & Chargement Dynamique de Compétences
+│   │   ├── __init__.py
+│   │   └── registry.py       # Registre central de compétences & décorateur @skill
+│   └── system/               # 🖥️ Démons de Service, CLI & Dashboard Web
+│       ├── __init__.py
+│       ├── daemon.py         # Gestionnaire de service (macOS launchd / Linux systemd)
+│       ├── cli.py            # Interface CLI complète
+│       └── dashboard/        # Serveur HTTP/SSE & Dashboard Web interactif
 ├── tests/                    # 24 suites de tests automatisées (100% pass, 45 tests)
 ├── examples/                 # Scripts et cas d'usage de production
 ├── workflows/                # Définitions de pipelines DAG en JSON

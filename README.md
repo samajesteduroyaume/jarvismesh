@@ -168,33 +168,48 @@ jarvismesh dashboard --port 8080
 ```text
 jarvismesh/
 ├── jarvismesh/               # Core package source code
-│   ├── __init__.py           # Public API exports
-│   ├── node.py               # P2P Node, multiplexing, discovery, adaptive routing
-│   ├── protocol.py           # JSON schemas, HMAC & Ed25519 signatures
-│   ├── crypto.py             # Ed25519 identities & TrustStore
-│   ├── e2ee.py               # End-to-end encryption X25519 & ChaCha20-Poly1305
-│   ├── mlx_engine.py         # Dedicated MLX-LM engine, Metal streaming, VRAM metrics
-│   ├── models.py             # Multi-Model Manager with LRU Metal GPU cache
-│   ├── vlm_engine.py         # Multimodal Vision VLM engine (Qwen2-VL, Pixtral)
-│   ├── audio_engine.py       # Speech-to-Text & Whisper audio transcriber
-│   ├── nat_p2p.py            # Direct P2P NAT Traversal (STUN / ICE hole punching)
-│   ├── binary_protocol.py    # Binary serialization & Zstandard compression
-│   ├── sandbox.py            # Secure Sandbox & Self-Coding Dynamic @skill generator
-│   ├── agent.py              # Autonomous ReAct Agent & Distributed Function Calling
-│   ├── memory.py             # Persistent SQLite vector store & episodic memory
-│   ├── reranker.py           # Semantic Cross-Encoder Reranker
-│   ├── graph_memory.py       # Knowledge Graph Store (GraphRAG)
-│   ├── offline_queue.py      # Store & Forward persistent task queue
-│   ├── consensus.py          # Multi-Agent Consensus, Voting & Adversarial Debate
-│   ├── rbac.py               # Role-Based Access Control (RBAC) security policy
-│   ├── orchestrator.py       # DAG multi-agent workflow engine
-│   ├── mcp_bridge.py         # Bi-directional MCP gateway
-│   ├── rag.py                # Local TF-IDF vector store & RAG skills
-│   ├── wan.py                # WAN relay & remote node synchronization
-│   ├── daemon.py             # System daemon manager (macOS launchd / Linux systemd)
-│   ├── gossip.py             # SWIM Gossip protocol for large-scale clusters
-│   ├── cli.py                # Comprehensive CLI interface
-│   └── dashboard/            # HTTP/SSE server & dark glassmorphic Web UI
+│   ├── __init__.py           # Unified public API exports (100% backward-compatible)
+│   ├── core/                 # 🌐 P2P Networking, WebSocket multiplexer, STUN/NAT & Gossip
+│   │   ├── __init__.py
+│   │   ├── node.py           # JarvisNode P2P multiplexer & adaptive load routing
+│   │   ├── protocol.py       # Message envelopes, schemas & HMAC signatures
+│   │   ├── binary_protocol.py# Binary serialization & Zstandard compression
+│   │   ├── nat_p2p.py        # RFC 5389 STUN client & Direct P2P NAT Traversal
+│   │   ├── wan.py            # WAN relay & remote node synchronization
+│   │   └── gossip.py         # SWIM Gossip failure detector for large clusters
+│   ├── security/             # 🔐 Cryptography, E2EE X25519, RBAC & Secure Sandbox
+│   │   ├── __init__.py
+│   │   ├── crypto.py         # Ed25519 asymmetric identities & TrustStore
+│   │   ├── e2ee.py           # End-to-end encryption X25519 & ChaCha20-Poly1305
+│   │   ├── rbac.py           # Role-Based Access Control (RBAC) & permissions
+│   │   └── sandbox.py        # Isolated AST sandbox & dynamic skill execution
+│   ├── engines/              # ⚡ Apple Silicon MLX GPU Inference Engines
+│   │   ├── __init__.py
+│   │   ├── mlx_engine.py     # Dedicated MLX-LM engine, streaming Metal, VRAM metrics
+│   │   ├── models.py         # Multi-Model Manager with LRU Metal GPU cache
+│   │   ├── vlm_engine.py     # Multimodal Vision VLM engine (Qwen2-VL, Pixtral)
+│   │   └── audio_engine.py   # Speech-to-Text & Whisper audio transcriber
+│   ├── memory/               # 🧠 Persistent Storage, RAG & Knowledge Graph
+│   │   ├── __init__.py
+│   │   ├── vector.py         # Persistent SQLite vector store & episodic memory
+│   │   ├── rag.py            # Local TF-IDF vector store & RAG skills
+│   │   ├── reranker.py       # Semantic Cross-Encoder Reranker
+│   │   └── graph_memory.py   # Knowledge Graph Store (GraphRAG SQLite triples)
+│   ├── agents/               # 🤖 Autonomous Agents & Swarm Coordination
+│   │   ├── __init__.py
+│   │   ├── agent.py          # Autonomous ReAct Agent & Distributed Function Calling
+│   │   ├── orchestrator.py   # DAG multi-agent workflow engine
+│   │   ├── consensus.py      # Multi-Agent Consensus, Voting & Adversarial Debate
+│   │   ├── offline_queue.py  # Store & Forward persistent task queue
+│   │   └── mcp_bridge.py     # Bi-directional Model Context Protocol (MCP) gateway
+│   ├── skills/               # 🛠️ Skill Registry & Dynamic Plugin Loader
+│   │   ├── __init__.py
+│   │   └── registry.py       # Central skill registry & @skill decorator
+│   └── system/               # 🖥️ System Daemon, CLI & Web Dashboard
+│       ├── __init__.py
+│       ├── daemon.py         # Background service manager (macOS launchd / Linux systemd)
+│       ├── cli.py            # Comprehensive CLI interface
+│       └── dashboard/        # HTTP/SSE server & dark glassmorphic Web UI
 ├── tests/                    # 24 automated test suites (100% pytest pass rate, 45 tests)
 ├── examples/                 # Production scripts and real-world workflows
 ├── workflows/                # Declarative JSON workflow definitions

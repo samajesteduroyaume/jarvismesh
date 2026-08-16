@@ -22,7 +22,7 @@ except ImportError:
     Field = lambda *args, **kwargs: None  # type: ignore
     _HAS_PYDANTIC = False
 
-from .mlx_engine import (
+from ..mlx_engine import (
     llm,
     llm_stream,
     LLMPayload,
