@@ -115,6 +115,10 @@ class SkillRegistry:
             total_loaded += self.load_file(py_file)
         return total_loaded
 
+    def get(self, name: str, default: Optional[Callable] = None) -> Optional[Callable]:
+        """Récupère une compétence par son nom."""
+        return self._skills.get(name, default)
+
     @property
     def skills(self) -> dict[str, Callable]:
         return dict(self._skills)

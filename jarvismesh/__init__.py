@@ -19,6 +19,11 @@ from .graph_memory import KnowledgeGraphStore, get_graph_skills
 from .offline_queue import PersistentTaskQueue, QueuedTask
 from .consensus import MultiAgentConsensus, ConsensusResult, AgentVote
 from .rbac import RBACManager, DEFAULT_ROLES
+from .vlm_engine import VLMModelManager, get_vlm_skills
+from .audio_engine import AudioTranscriber, get_audio_skills
+from .nat_p2p import STUNClient, NATTraversalManager, STUNEndpoint
+from .binary_protocol import BinaryMessageEncoder
+from .sandbox import SandboxSkillExecutor, DynamicSkillManager, get_sandbox_skills
 
 __all__ = [
     "JarvisNode",
@@ -77,6 +82,18 @@ __all__ = [
     "AgentVote",
     "RBACManager",
     "DEFAULT_ROLES",
+    "VLMModelManager",
+    "get_vlm_skills",
+    "AudioTranscriber",
+    "get_audio_skills",
+    "STUNClient",
+    "NATTraversalManager",
+    "STUNEndpoint",
+    "BinaryMessageEncoder",
+    "SandboxSkillExecutor",
+    "DynamicSkillManager",
+    "get_sandbox_skills",
 ]
+
 
 

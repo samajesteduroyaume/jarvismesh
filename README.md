@@ -175,6 +175,11 @@ jarvismesh/
 │   ├── e2ee.py               # End-to-end encryption X25519 & ChaCha20-Poly1305
 │   ├── mlx_engine.py         # Dedicated MLX-LM engine, Metal streaming, VRAM metrics
 │   ├── models.py             # Multi-Model Manager with LRU Metal GPU cache
+│   ├── vlm_engine.py         # Multimodal Vision VLM engine (Qwen2-VL, Pixtral)
+│   ├── audio_engine.py       # Speech-to-Text & Whisper audio transcriber
+│   ├── nat_p2p.py            # Direct P2P NAT Traversal (STUN / ICE hole punching)
+│   ├── binary_protocol.py    # Binary serialization & Zstandard compression
+│   ├── sandbox.py            # Secure Sandbox & Self-Coding Dynamic @skill generator
 │   ├── agent.py              # Autonomous ReAct Agent & Distributed Function Calling
 │   ├── memory.py             # Persistent SQLite vector store & episodic memory
 │   ├── reranker.py           # Semantic Cross-Encoder Reranker
@@ -190,7 +195,7 @@ jarvismesh/
 │   ├── gossip.py             # SWIM Gossip protocol for large-scale clusters
 │   ├── cli.py                # Comprehensive CLI interface
 │   └── dashboard/            # HTTP/SSE server & dark glassmorphic Web UI
-├── tests/                    # 19 automated test suites (100% pytest pass rate, 34 tests)
+├── tests/                    # 24 automated test suites (100% pytest pass rate, 45 tests)
 ├── examples/                 # Production scripts and real-world workflows
 ├── workflows/                # Declarative JSON workflow definitions
 ├── pyproject.toml            # Project packaging & dependencies
@@ -203,7 +208,7 @@ jarvismesh/
 
 ## 🧪 Running Automated Tests
 
-Run all 19 test suites in a single command via `pytest` (34 tests passed):
+Run all 24 test suites in a single command via `pytest` (45 tests passed):
 
 ```bash
 .venv/bin/python -m pytest tests/

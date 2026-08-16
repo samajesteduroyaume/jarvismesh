@@ -175,6 +175,11 @@ jarvismesh/
 │   ├── e2ee.py               # Chiffrement de bout en bout X25519 & ChaCha20-Poly1305
 │   ├── mlx_engine.py         # Moteur MLX-LM dédié, streaming Metal, métriques VRAM
 │   ├── models.py             # Multi-Model Manager avec cache LRU Metal GPU
+│   ├── vlm_engine.py         # Moteur Vision Multimodale VLM (Qwen2-VL, Pixtral)
+│   ├── audio_engine.py       # Moteur Audio & Transcription vocale Whisper
+│   ├── nat_p2p.py            # Perforation de NAT P2P directe (STUN / ICE hole punching)
+│   ├── binary_protocol.py    # Protocole binaire & compression Zstandard
+│   ├── sandbox.py            # Sandbox isolée & Auto-programmation de @skill dynamiques
 │   ├── agent.py              # Agent Autonome ReAct & Function Calling Distribué
 │   ├── memory.py             # Base vectorielle SQLite persistante & mémoire épisodique
 │   ├── reranker.py           # Reranker Sémantique Cross-Encoder
@@ -190,7 +195,7 @@ jarvismesh/
 │   ├── gossip.py             # Protocole Gossip SWIM pour cluster haute échelle
 │   ├── cli.py                # Interface CLI complète
 │   └── dashboard/            # Serveur HTTP/SSE & Dashboard Web interactif
-├── tests/                    # 19 suites de tests automatisées (100% pass, 34 tests)
+├── tests/                    # 24 suites de tests automatisées (100% pass, 45 tests)
 ├── examples/                 # Scripts et cas d'usage de production
 ├── workflows/                # Définitions de pipelines DAG en JSON
 ├── pyproject.toml            # Configuration et packaging
@@ -202,7 +207,7 @@ jarvismesh/
 
 ## 🧪 Exécution des Tests
 
-L'intégralité des 19 suites de tests (34 tests validés à 100%) est exécutable via `pytest` :
+L'intégralité des 24 suites de tests (45 tests validés à 100%) est exécutable via `pytest` :
 
 ```bash
 .venv/bin/python -m pytest tests/
