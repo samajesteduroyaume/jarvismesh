@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JarvisMesh — Superviseur d'Agents IA Locaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <circle cx="19" cy="5" r="2"></circle>
+            <circle cx="5" cy="5" r="2"></circle>
+            <circle cx="5" cy="19" r="2"></circle>
+            <circle cx="19" cy="19" r="2"></circle>
+            <path d="M12 9V5m0 14v-4m-3-3H5m14 0h-4M7 7l3 3m7-7l-3 3M7 17l3-3m7 7l-3-3"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Jarvis<span>Mesh</span></h1>
+          <span class="badge-tag">P2P SOUVERAIN</span>
+        </div>
+      </div>
+
+      <div class="local-node-card" id="localNodeCard">
+        <div class="node-status-indicator">
+          <span class="pulse-dot"></span>
+          <span class="node-label">Nœud Local</span>
+        </div>
+        <div class="node-title" id="localNodeName">Chargement...</div>
+        <div class="node-meta" id="localNodeMeta">--:--</div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="topology">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="2"></rect><rect x="14" y="2" width="8" height="8" rx="2"></rect><rect x="2" y="14" width="8" height="8" rx="2"></rect><rect x="14" y="14" width="8" height="8" rx="2"></rect></svg>
+          Topologie du Mesh
+        </button>
+        <button class="nav-item" data-tab="telemetry">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+          Télémétrie & Santé
+        </button>
+        <button class="nav-item" data-tab="studio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Studio d'Inférence
+        </button>
+        <button class="nav-item" data-tab="workflows">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+          Workflows Multi-Agents
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="network-stat">
+          <span>Pairs Connectés</span>
+          <strong id="peerCountStat">0</strong>
+        </div>
+        <div class="network-stat">
+          <span>Compétences Réseau</span>
+          <strong id="skillCountStat">0</strong>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header Bar -->
+      <header class="top-bar">
+        <div class="view-title">
+          <h2 id="currentViewTitle">Topologie du Mesh</h2>
+          <p id="currentViewDesc">Découverte mDNS en temps réel et statut des nœuds connectés</p>
+        </div>
+        <div class="header-actions">
+          <div class="live-pill">
+            <span class="live-indicator"></span>
+            <span>TEMPS RÉEL (SSE)</span>
+          </div>
+          <button class="btn-secondary" id="btnRefresh">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            Actualiser
+          </button>
+        </div>
+      </header>
+
+      <!-- TAB 1: TOPOLOGY -->
+      <section class="tab-content active" id="tab-topology">
+        <div class="metrics-banner">
+          <div class="metric-card">
+            <div class="metric-icon cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"></path></svg>
+            </div>
+            <div class="metric-info">
+              <span class="metric-title">Nœuds Découverts</span>
+              <span class="metric-val" id="totalNodesVal">1</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div class="metric-info">
+              <span class="metric-title">Catalogue Compétences</span>
+              <span class="metric-val" id="totalSkillsVal">0</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+            </div>
+            <div class="metric-info">
+              <span class="metric-title">Moteur LLM Local</span>
+              <span class="metric-val" id="mlxModelVal">MLX Metal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <h3>Nœuds du Réseau Maillé</h3>
+          <span class="sub">Multiplexage WebSocket & auto-failover</span>
+        </div>
+        <div class="nodes-grid" id="nodesGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- TAB 2: TELEMETRY -->
+      <section class="tab-content" id="tab-telemetry">
+        <div class="telemetry-grid">
+          <div class="glass-card">
+            <div class="card-header">
+              <h4>Mémoire GPU Metal (VRAM MLX)</h4>
+              <span class="badge" id="metalStatusBadge">Metal Actif</span>
+            </div>
+            <div class="gauge-container">
+              <div class="gauge-bar-wrapper">
+                <div class="gauge-label">
+                  <span>Mémoire Active</span>
+                  <strong id="vramActiveVal">0 MB</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill cyan" id="vramActiveBar" style="width: 0%"></div></div>
+              </div>
+              <div class="gauge-bar-wrapper">
+                <div class="gauge-label">
+                  <span>Pic de Mémoire (Peak)</span>
+                  <strong id="vramPeakVal">0 MB</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill purple" id="vramPeakBar" style="width: 0%"></div></div>
+              </div>
+              <div class="gauge-bar-wrapper">
+                <div class="gauge-label">
+                  <span>Cache Metal</span>
+                  <strong id="vramCacheVal">0 MB</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill green" id="vramCacheBar" style="width: 0%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <h4>Charge Système & Concurrence</h4>
+              <span class="badge">Nœud Local</span>
+            </div>
+            <div class="metrics-duo">
+              <div class="stat-box">
+                <span class="label">Tâches en Cours</span>
+                <span class="big-val" id="activeTasksCount">0</span>
+                <span class="subtext">Multiplexées non-bloquantes</span>
+              </div>
+              <div class="stat-box">
+                <span class="label">Load Average (1 min)</span>
+                <span class="big-val" id="loadAvgVal">0.00</span>
+                <span class="subtext" id="cpuCountVal">8 cœurs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card full-width">
+          <div class="card-header">
+            <h4>Santé Détaillée des Pairs Distants</h4>
+            <span class="sub">Sondage périodique `_health` (5s)</span>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Nom du Pair</th>
+                  <th>Adresse</th>
+                  <th>Tâches Actives</th>
+                  <th>Load CPU</th>
+                  <th>VRAM / MLX</th>
+                  <th>Dernière Synchronisation</th>
+                </tr>
+              </thead>
+              <tbody id="peerHealthTableBody">
+                <tr><td colspan="6" class="empty-cell">Aucun pair distant détecté pour l'instant.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: INFERENCE STUDIO -->
+      <section class="tab-content" id="tab-studio">
+        <div class="studio-layout">
+          <div class="studio-form glass-card">
+            <div class="card-header">
+              <h4>Paramètres de la Tâche</h4>
+              <span class="badge">Délégation Réseau</span>
+            </div>
+
+            <div class="form-group">
+              <label for="selectSkill">Compétence Cible</label>
+              <select id="selectSkill" class="input-control">
+                <option value="llm-stream">llm-stream (Flux token-par-token MLX)</option>
+                <option value="llm">llm (Inférence complète)</option>
+                <option value="reverse">reverse (Inversion de texte)</option>
+                <option value="echo">echo (Écho local/distant)</option>
+                <option value="wordcount">wordcount (Comptage mots/caractères)</option>
+                <option value="slow-echo">slow-echo (Test multiplexage)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="selectTargetPeer">Nœud Cible (Optionnel)</label>
+              <select id="selectTargetPeer" class="input-control">
+                <option value="">Routage automatique par charge (Recommandé)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="promptInput">Prompt / Texte d'entrée</label>
+              <textarea id="promptInput" class="input-control" rows="4" placeholder="Ex: Explique le fonctionnement d'un réseau maillé d'agents IA en 2 phrases...">Explique le fonctionnement d'un réseau maillé d'agents IA en 2 phrases.</textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group half">
+                <label for="maxTokensInput">Max Tokens</label>
+                <input type="number" id="maxTokensInput" class="input-control" value="256" min="1" max="4096">
+              </div>
+              <div class="form-group half">
+                <label for="tempInput">Température</label>
+                <input type="number" id="tempInput" class="input-control" value="0.7" step="0.1" min="0" max="2">
+              </div>
+            </div>
+
+            <button class="btn-primary full-width" id="btnExecuteTask">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>Exécuter la Délégation</span>
+            </button>
+          </div>
+
+          <div class="studio-output glass-card">
+            <div class="card-header">
+              <h4>Sortie & Streaming Temps Réel</h4>
+              <div class="stream-stats">
+                <span id="streamNodeBadge" class="badge">Prêt</span>
+                <span id="tokenSpeedBadge" class="badge cyan">0 tok/s</span>
+              </div>
+            </div>
+            <div class="output-console" id="outputConsole">
+              <span class="placeholder-text">En attente d'une tâche... Cliquez sur 'Exécuter la Délégation'.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: WORKFLOW RUNNER -->
+      <section class="tab-content" id="tab-workflows">
+        <div class="workflow-layout">
+          <div class="glass-card">
+            <div class="card-header">
+              <h4>Exécuteur de Pipelines Multi-Agents</h4>
+              <button class="btn-secondary small" id="btnLoadExampleWorkflow">Charger Exemple (IA ➡️ Synthèse ➡️ Inversion)</button>
+            </div>
+            <div class="form-group">
+              <label for="workflowInputParam">Paramètre d'entrée du Workflow (`{input.topic}`)</label>
+              <input type="text" id="workflowInputParam" class="input-control" value="Les trous noirs et l'espace temps">
+            </div>
+
+            <div class="form-group">
+              <label>Définition du Workflow (JSON)</label>
+              <textarea id="workflowJsonEditor" class="input-control code-editor" rows="12"></textarea>
+            </div>
+
+            <button class="btn-primary" id="btnRunWorkflow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Lancer le Workflow
+            </button>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <h4>Progression & Résultats du DAG</h4>
+              <span id="workflowStatusBadge" class="badge">Prêt</span>
+            </div>
+            <div class="workflow-steps-timeline" id="workflowTimeline">
+              <!-- Steps dynamically rendered -->
+              <div class="empty-state">Le pipeline n'a pas encore été lancé.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

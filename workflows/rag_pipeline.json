@@ -1,0 +1,38 @@
+{
+  "name": "Pipeline RAG & Synthèse IA",
+  "stages": [
+    {
+      "name": "recherche_sources",
+      "skill": "rag_search",
+      "payload": {
+        "query": "{input.sujet}",
+        "top_k": 3
+      }
+    },
+    {
+      "name": "redaction_ia",
+      "skill": "llm",
+      "payload": {
+        "prompt": "Explique de manière synthétique le sujet : {input.sujet}",
+        "max_tokens": 150,
+        "temperature": 0.3
+      }
+    },
+    [
+      {
+        "name": "comptage_mots",
+        "skill": "wordcount",
+        "payload": {
+          "text": "{steps.redaction_ia.result.response}"
+        }
+      },
+      {
+        "name": "inversion_resume",
+        "skill": "reverse",
+        "payload": {
+          "text": "{steps.redaction_ia.result.response}"
+        }
+      }
+    ]
+  ]
+}

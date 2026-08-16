@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jarvismesh"
+version = "0.2.0"
+description = "Protocole d'agents IA locaux, souverain — découverte mDNS + délégation de tâches par websocket, sans cloud ni serveur central."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Selim" }]
+dependencies = [
+    "websockets>=12.0",
+    "zeroconf>=0.130.0",
+    "cryptography>=41.0.0",
+]
+
+[project.optional-dependencies]
+# Validation de payload par schéma (voir node.py: JarvisNode(schemas=...)).
+validation = ["pydantic>=2.0"]
+# Inférence LLM locale accélérée sur Apple Silicon (Metal)
+mlx = ["mlx-lm>=0.19.0"]
+# Rien de spécifique n'est requis pour l'authentification PSK/HMAC (stdlib
+# `hmac`/`hashlib`) ni pour le WSS (stdlib `ssl`) — inclus par défaut.
+dev = ["pytest>=8.0", "pydantic>=2.0", "mlx-lm>=0.19.0", "cryptography>=41.0.0"]
+
+[project.scripts]
+jarvismesh = "jarvismesh.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["jarvismesh*"]
